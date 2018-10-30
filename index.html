@@ -9,13 +9,40 @@
     <meta name="theme-color" content="red">
     <!--Favicon-->
     <!-- <link rel="icon" sizes="340x340" href="assets/images/favIcon.png"> -->
+    <!--Font awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">    
     <!--Custom CSS-->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    
+    <main class="container">
+
+        <!--The header div-->
+        <header class="jumbotron-fluid mb-3">
+            <h1 class="display-2 text-center">Giphy API Demo</h1>
+        </header>
+
+        <!--Topic Buttons Section-->
+        <section class="row text-center justify-content-center mb-3 mx-2">
+            <div id="searchButtonsDiv" class="btn-group btn-group-toggle flex-wrap" data-toggle="buttons"></div>
+        </section>
+
+        <section class="row justify-content-center mb-3">
+            <form class="form-inline">
+                 <div class="form-group mr-2">
+                    <input type="text" class="form-control" name="animalToAdd" id="animalToAdd" placeholder="Animal To Add">
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </section>
+
+        <!--Gif Display Section-->
+        <section id="gifDisplayDiv" class="row justify-content-center m-3"></section>
+
+    </main>
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

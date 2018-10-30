@@ -1,0 +1,8 @@
+.container {
+    max-width: unset !important;
+}
+
+.gifImageContainer {
+    height: 100%;
+    cursor: pointer;
+}
