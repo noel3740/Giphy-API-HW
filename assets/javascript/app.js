@@ -32,7 +32,7 @@ $(document).ready(function() {
                         });
 
                 topicLabel.append(topicButton);
-                topicLabel.append(" " + topic);
+                topicLabel.append(" " + topic.toLowerCase());
                 giphyDemo.tempButtonsDiv.append(topicLabel);
 
                 topicLabel.on("click", giphyDemo.topicButtonClicked);
@@ -129,7 +129,7 @@ $(document).ready(function() {
     }
 
     var topics = ["baseball", "football", "basketball", "soccer", "hockey", "skateboarding", "surfing", 
-    "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "bowling"];
+    "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "Field Hockey "];
 
     giphyDemo.initialize(topics, $("#searchButtonsDiv"), $("#gifDisplayDiv"), $("#gifAddForm"));
     giphyDemo.createTopicButtons();
