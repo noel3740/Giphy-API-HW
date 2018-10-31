@@ -20,8 +20,17 @@ $(document).ready(function() {
             giphyDemo.tempButtonsDiv.empty();
             
             giphyDemo.tempTopics.forEach((topic, index) => {
-                var topicLabel = $("<label>").addClass("btn btn-primary").attr(giphyDemo.topicIndexAttribName, index);
-                var topicButton = $("<input>").attr({"type": "radio", "name": "topic-options", "autocomplete": "off"});
+                var topicLabel = $("<label>")
+                    .addClass("btn btn-primary")
+                    .attr(giphyDemo.topicIndexAttribName, index);
+                    
+                var topicButton = $("<input>")
+                    .attr({
+                            "type": "radio", 
+                            "name": "topic-options",
+                            "autocomplete": "off"
+                        });
+
                 topicLabel.append(topicButton);
                 topicLabel.append(" " + topic);
                 giphyDemo.tempButtonsDiv.append(topicLabel);
@@ -109,9 +118,9 @@ $(document).ready(function() {
             var inputElement = giphyDemo.tempSearchForm.find("input");
 
             if (inputElement.val().trim() &&
-                giphyDemo.tempTopics.indexOf(inputElement.val()) < 0) {
+                giphyDemo.tempTopics.indexOf(inputElement.val().toLowerCase()) < 0) {
 
-                giphyDemo.tempTopics.push(inputElement.val());
+                giphyDemo.tempTopics.push(inputElement.val().toLowerCase());
                 giphyDemo.createTopicButtons();
             }
 
@@ -119,7 +128,7 @@ $(document).ready(function() {
         }
     }
 
-    var topics = ["baseball", "football", "basketball", "socker", "hockey", "skateboarding", "surfing", 
+    var topics = ["baseball", "football", "basketball", "soccer", "hockey", "skateboarding", "surfing", 
     "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "bowling"];
 
     giphyDemo.initialize(topics, $("#searchButtonsDiv"), $("#gifDisplayDiv"), $("#gifAddForm"));
