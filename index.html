@@ -17,12 +17,13 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <main class="container">
 
-        <!--The header div-->
-        <header class="jumbotron-fluid mb-3">
-            <h1 class="display-2 text-center">Giphy API Demo</h1>
-        </header>
+    <!--The header div-->
+    <header class="jumbotron jumbotron-fluid bg-dark text-primary">
+        <h1 class="display-3 text-center">Giphy API Demo</h1>
+    </header>
+
+    <main class="container">
 
         <!--Topic Buttons Section-->
         <section class="row text-center justify-content-center mb-3 mx-2">
@@ -30,11 +31,11 @@
         </section>
 
         <section class="row justify-content-center mb-3">
-            <form class="form-inline">
+            <form id="gifAddForm" class="form-inline">
                  <div class="form-group mr-2">
-                    <input type="text" class="form-control" name="animalToAdd" id="animalToAdd" placeholder="Animal To Add">
+                    <input type="text" class="form-control" name="searchToAdd" placeholder="Gif Search To Add">
                 </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
             </form>
         </section>
 

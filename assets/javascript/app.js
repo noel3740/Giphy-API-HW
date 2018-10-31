@@ -4,26 +4,29 @@ $(document).ready(function() {
         tempTopics: [],
         tempButtonsDiv: null,
         tempGifDisplayDiv: null,
+        tempSearchForm: null,
         topicIndexAttribName: "topic-index",
         giphyAPIKey: "BhEB2InhZbmP96xsZoWBz15voVYxA47a", 
 
-        initialize: function (searchTopics, buttonsDiv, gifDisplayDiv) {
+        initialize: function (searchTopics, buttonsDiv, gifDisplayDiv, searchForm) {
             this.tempTopics = [...searchTopics];
             this.tempButtonsDiv = buttonsDiv;
             this.tempGifDisplayDiv = gifDisplayDiv;
+            this.tempSearchForm = searchForm;
+            this.tempSearchForm.find("button").on("click", this.onSearchAddClick);
         },
 
         createTopicButtons: function() {
-            this.tempButtonsDiv.empty();
+            giphyDemo.tempButtonsDiv.empty();
             
-            this.tempTopics.forEach((topic, index) => {
-                var topicLabel = $("<label>").addClass("btn btn-primary").attr(this.topicIndexAttribName, index);
+            giphyDemo.tempTopics.forEach((topic, index) => {
+                var topicLabel = $("<label>").addClass("btn btn-primary").attr(giphyDemo.topicIndexAttribName, index);
                 var topicButton = $("<input>").attr({"type": "radio", "name": "topic-options", "autocomplete": "off"});
                 topicLabel.append(topicButton);
                 topicLabel.append(" " + topic);
-                this.tempButtonsDiv.append(topicLabel);
+                giphyDemo.tempButtonsDiv.append(topicLabel);
 
-                topicLabel.on("click", this.topicButtonClicked);
+                topicLabel.on("click", giphyDemo.topicButtonClicked);
             });
         },
 
@@ -32,7 +35,7 @@ $(document).ready(function() {
             //Get the index in the array of the button the user clicked on by grabbing it from the topic-index attribute on the button
             var topicIndex = $(this).attr(giphyDemo.topicIndexAttribName);
             //Get the string to search the Giphy API for using the index of the button the user clicked and replace spaces with a plus sign. 
-            var searchFor = topics[topicIndex].replace(/ /gi, "+");
+            var searchFor = giphyDemo.tempTopics[topicIndex].replace(/ /gi, "+");
             //Get a random offset to get random pictures
             var randomOffset = Math.floor(Math.random() * 100) + 1;
             //Clear out the gif display div
@@ -53,29 +56,72 @@ $(document).ready(function() {
             console.log(giphyResponse);
 
             giphyResponse.data.forEach((giphyDataObject) => {
-                var originalStillImage = giphyDataObject.images.downsized_still;
-                var original = giphyDataObject.images.downsized;
+                var originalStillImage = giphyDataObject.images.fixed_height_still;
+                var original = giphyDataObject.images.fixed_height;
 
-                var gifImageDiv = $("<div>").addClass("m-2 gifImageContainer");
-                gifImageDiv.on("click", giphyDemo.toggleGifAnimation);
+                var gifImageCard = $("<div>").addClass("card m-2");
 
-                var giphyStillImage = $("<img>").attr("src", originalStillImage.url).attr({ "height": originalStillImage.height, "width": originalStillImage.width});
-                gifImageDiv.append(giphyStillImage);
+                var gifDiv = $("<div>").addClass("gifImageContainer");
+                gifDiv.on("click", giphyDemo.toggleGifAnimation);
 
-                var giphyAnimatedImage = $("<img>").attr("src", original.url).attr({ "height": original.height, "width": original.width});
+                var giphyStillImage = $("<img>")
+                    .attr({
+                        "src": originalStillImage.url, 
+                        "alt": giphyDataObject.title,
+                        "height": originalStillImage.height,
+                        "width": originalStillImage.width
+                        })
+                    .addClass("card-img-top");
+
+                gifDiv.append(giphyStillImage);
+
+                var giphyAnimatedImage = $("<img>")
+                    .attr({
+                            "src": original.url, 
+                            "alt": giphyDataObject.title,
+                            "height": original.height, 
+                            "width": original.width
+                        })
+                    .addClass("card-img-top");
+                    
                 giphyAnimatedImage.hide();
-                gifImageDiv.append(giphyAnimatedImage);
+                gifDiv.append(giphyAnimatedImage);
 
-                giphyDemo.tempGifDisplayDiv.append(gifImageDiv);
+                gifImageCard.append(gifDiv);
+
+                var cardBody = $("<div>").addClass("card-body");
+                cardBody.append($("<p>")
+                    .addClass("card-text text-center")
+                    .text(`Rated ${giphyDataObject.rating.toUpperCase()}`));
+                    
+                gifImageCard.append(cardBody);
+
+                giphyDemo.tempGifDisplayDiv.append(gifImageCard);
             });
         },
 
         toggleGifAnimation: function() {
             $(this).find("img").toggle();
+        },
+
+        onSearchAddClick: function () {
+            event.preventDefault();
+            var inputElement = giphyDemo.tempSearchForm.find("input");
+
+            if (inputElement.val().trim() &&
+                giphyDemo.tempTopics.indexOf(inputElement.val()) < 0) {
+
+                giphyDemo.tempTopics.push(inputElement.val());
+                giphyDemo.createTopicButtons();
+            }
+
+            inputElement.val("");
         }
     }
 
-    var topics = ["dog", "cat", "frog", "turtle", "bird", "hampster", "goat", "skunk", "badger", "racoon", "snake", "honey badger"];
-    giphyDemo.initialize(topics, $("#searchButtonsDiv"), $("#gifDisplayDiv"));
+    var topics = ["baseball", "football", "basketball", "socker", "hockey", "skateboarding", "surfing", 
+    "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "bowling"];
+
+    giphyDemo.initialize(topics, $("#searchButtonsDiv"), $("#gifDisplayDiv"), $("#gifAddForm"));
     giphyDemo.createTopicButtons();
 });
