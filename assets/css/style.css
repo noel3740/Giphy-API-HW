@@ -1,11 +1,14 @@
+/*Changing default max width of the bootstrap container class*/
 .container {
     max-width: unset !important;
 }
 
+/*Changing cursor to pointer for the image container div*/
 .gifImageContainer {
     cursor: pointer;
 }
 
+/*Styling for favorite icon*/
 .favorite {
     cursor: pointer;
     position: absolute;
