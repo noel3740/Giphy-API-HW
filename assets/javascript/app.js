@@ -50,7 +50,10 @@ $(document).ready(function() {
 
                 //If the hamburger menu button is visible then trigger an on click event on that button so it closes the hamburger menu
                 if ($('.navbar-toggler').css('display') != "none") {
-                    $('.navbar-toggler').click();
+
+                    if ($(".navbar-collapse").hasClass("show")) {
+                        $('.navbar-toggler').click();
+                    }
                 }
             });
 
@@ -71,7 +74,10 @@ $(document).ready(function() {
 
                 //If the hamburger menu button is visible then trigger an on click event on that button so it closes the hamburger menu
                 if ($('.navbar-toggler').css('display') != "none") {
-                    $('.navbar-toggler').click();
+
+                    if ($(".navbar-collapse").hasClass("show")) {
+                        $('.navbar-toggler').click();
+                    }
                 }
             });
 
