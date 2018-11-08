@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     var giphyDemo = {
         tempTopics: [],
@@ -9,16 +9,16 @@ $(document).ready(function() {
         tempFavDiv: null,
         tempSearchDiv: null,
         topicIndexAttribName: "topic-index",
-        giphyAPIKey: "BhEB2InhZbmP96xsZoWBz15voVYxA47a", 
+        giphyAPIKey: "BhEB2InhZbmP96xsZoWBz15voVYxA47a",
         favoriteListLocalStorageName: "favoritesList",
 
         //Function to intiialize variables and state of application
         initialize: function (searchTopics, buttonsDiv, gifDisplayDiv, searchForm, favDiv, searchDiv) {
-            
+
             //Get the list of favorites from local storage if it exists. If not then default to a blank array
             if (localStorage.getItem(this.favoriteListLocalStorageName)) {
-                this.favorites = JSON.parse(localStorage.getItem(this.favoriteListLocalStorageName));  
-            } 
+                this.favorites = JSON.parse(localStorage.getItem(this.favoriteListLocalStorageName));
+            }
             else {
                 this.favorites = [];
             }
@@ -35,15 +35,14 @@ $(document).ready(function() {
             this.tempSearchForm.find("button").on("click", this.onSearchAddClick);
 
             //Add on click event for favorite link on the nav bar
-            $(".favoritesLink").on("click", () => 
-            { 
+            $(".favoritesLink").on("click", () => {
                 //Add active class tp favorites link and remove the active class from the search link
                 $(".favoritesLink").addClass("active");
                 $(".searchLink").removeClass("active");
 
                 //Hide the search div and display the favorite div
-                giphyDemo.tempSearchDiv.hide(); 
-                giphyDemo.tempFavDiv.show(); 
+                giphyDemo.tempSearchDiv.hide();
+                giphyDemo.tempFavDiv.show();
 
                 //Build the elements on the favorites screen
                 giphyDemo.buildFavoritesScreen();
@@ -58,8 +57,7 @@ $(document).ready(function() {
             });
 
             //Add on click event for search link on the nav bar
-            $(".searchLink").on("click", () => 
-            { 
+            $(".searchLink").on("click", () => {
                 //Clear the gif display div and remove the active class from the search buttons
                 giphyDemo.tempGifDisplayDiv.empty();
                 giphyDemo.tempButtonsDiv.find(".active").removeClass("active");
@@ -69,8 +67,8 @@ $(document).ready(function() {
                 $(".searchLink").addClass("active");
 
                 //Display the search div and hide the favorite div
-                giphyDemo.tempSearchDiv.show(); 
-                giphyDemo.tempFavDiv.hide(); 
+                giphyDemo.tempSearchDiv.show();
+                giphyDemo.tempFavDiv.hide();
 
                 //If the hamburger menu button is visible then trigger an on click event on that button so it closes the hamburger menu
                 if ($('.navbar-toggler').css('display') != "none") {
@@ -90,24 +88,24 @@ $(document).ready(function() {
         },
 
         //Function to create the search buttons
-        createSearchButtons: function() {
+        createSearchButtons: function () {
 
             //Empty the div that holds the current search buttons
             giphyDemo.tempButtonsDiv.empty();
-            
+
             //Loop through all the topics in the topic array, 
             //create a button for each, and attach on click event to it
             giphyDemo.tempTopics.forEach((topic, index) => {
                 var topicLabel = $("<label>")
                     .addClass("btn btn-primary")
                     .attr(giphyDemo.topicIndexAttribName, index);
-                    
+
                 var topicButton = $("<input>")
                     .attr({
-                            "type": "radio", 
-                            "name": "topic-options",
-                            "autocomplete": "off"
-                        });
+                        "type": "radio",
+                        "name": "topic-options",
+                        "autocomplete": "off"
+                    });
 
                 topicLabel.append(topicButton);
                 topicLabel.append(" " + topic.toLowerCase());
@@ -118,7 +116,7 @@ $(document).ready(function() {
         },
 
         //Function that will build out the favorites screen using jQuery
-        buildFavoritesScreen: function() {
+        buildFavoritesScreen: function () {
 
             var displayDiv = giphyDemo.tempFavDiv.find(".favDisplayDiv");
             //Clear out current display div contents
@@ -130,8 +128,8 @@ $(document).ready(function() {
 
                 //send a get request to the giphy url then build the gif card elements on the page. 
                 $.ajax({
-                url: queryURL,
-                method: "GET"
+                    url: queryURL,
+                    method: "GET"
                 }).then((giphyResponse) => giphyDemo.createGifCardElements(giphyResponse, displayDiv));
             }
         },
@@ -148,9 +146,9 @@ $(document).ready(function() {
 
                 //Create card div for gif
                 var gifImageCard = $("<div>")
-                                    .addClass("card m-2")
-                                    .css("width", originalStillImage.width)
-                                    .attr("data-giphy-id", giphyDataObject.id);
+                    .addClass("card m-2")
+                    .css("width", originalStillImage.width)
+                    .attr("data-giphy-id", giphyDataObject.id);
 
                 //Create container for the image elements and attach an on click event to it that will toggle
                 //the still vs animated image
@@ -160,11 +158,11 @@ $(document).ready(function() {
                 //Create image element for the still image
                 var giphyStillImage = $("<img>")
                     .attr({
-                        "src": originalStillImage.url, 
+                        "src": originalStillImage.url,
                         "alt": giphyDataObject.title,
                         "height": originalStillImage.height,
                         "width": originalStillImage.width
-                        })
+                    })
                     .addClass("card-img-top");
 
                 gifDiv.append(giphyStillImage);
@@ -172,15 +170,15 @@ $(document).ready(function() {
                 //Create image element for the animated image
                 var giphyAnimatedImage = $("<img>")
                     .attr({
-                            "src": original.url, 
-                            "alt": giphyDataObject.title,
-                            "height": original.height, 
-                            "width": original.width
-                        })
+                        "src": original.url,
+                        "alt": giphyDataObject.title,
+                        "height": original.height,
+                        "width": original.width
+                    })
                     .addClass("card-img-top");
 
                 gifDiv.append(giphyAnimatedImage);
-                    
+
                 //Hide the animated image by default
                 giphyAnimatedImage.hide();
 
@@ -202,30 +200,30 @@ $(document).ready(function() {
 
                 //Add a download button to the card div
                 var downloadButton = $("<button>")
-                        .addClass("btn btn-secondary downloadGifButton")
-                        .attr("download-url", original.url);
+                    .addClass("btn btn-secondary downloadGifButton")
+                    .attr("download-url", original.url);
 
                 downloadButton.append($("<i>")
-                        .addClass("fa fa-download"));
-                
+                    .addClass("fa fa-download"));
+
                 downloadButton.append(" Download");
 
                 //Attach click event to download buttons
                 downloadButton.on("click", (event) => giphyDemo.forceDownload($(event.currentTarget).attr("download-url")));
 
                 cardBody.append(downloadButton);
-                
+
                 //Add favorite icon
                 var favoriteIconClass = (giphyDemo.favorites.indexOf(giphyDataObject.id) >= 0 ? "fas fa-heart favorite" : "far fa-heart favorite");
 
                 var favIcon = $("<i>")
                     .addClass(favoriteIconClass)
                     .attr("data-giphy-id", giphyDataObject.id);
-                
+
                 //Attach click event to favorite icon
                 favIcon.on("click", (event) => giphyDemo.addRemoveFavorite($(event.currentTarget)));
-                
-                cardBody.append(favIcon);                
+
+                cardBody.append(favIcon);
 
                 //Append the card body to the card
                 gifImageCard.append(cardBody);
@@ -233,11 +231,11 @@ $(document).ready(function() {
                 contentDiv.prepend(gifImageCard);
             });
 
-            
+
         },
 
         //Function that will run when a search button is clicked
-        searchButtonClicked: function() {
+        searchButtonClicked: function () {
 
             //Get the index in the array of the button the user clicked on by grabbing it from the topic-index attribute on the button
             var topicIndex = $(this).attr(giphyDemo.topicIndexAttribName);
@@ -245,16 +243,16 @@ $(document).ready(function() {
             var searchFor = giphyDemo.tempTopics[topicIndex].replace(/ /gi, "+");
             //Get a random offset to get random pictures
             var randomOffset = Math.floor(Math.random() * 100) + 1;
-             
+
             //Build the query url
             var queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${giphyDemo.giphyAPIKey}&q=${searchFor}&offset=${randomOffset}&limit=10&lang=en`;
 
             //send a get request to the giphy url then build the gif image elements on the page. 
             $.ajax({
-              url: queryURL,
-              method: "GET"
+                url: queryURL,
+                method: "GET"
             }).then((giphyResponse) => giphyDemo.createGifCardElements(giphyResponse, giphyDemo.tempGifDisplayDiv));
-           
+
         },
 
         //Function to run when a favorite icon is clicked
@@ -283,13 +281,13 @@ $(document).ready(function() {
         },
 
         //Toggle between the animated and still image. 
-        toggleGifAnimation: function() {
+        toggleGifAnimation: function () {
             $(this).find("img").toggle();
         },
 
         //Function is run when the add search button is clicked
         onSearchAddClick: function () {
-            
+
             //Prevent screen refresh on submit
             event.preventDefault();
 
@@ -309,14 +307,14 @@ $(document).ready(function() {
 
             //Clear out the value in the text input element
             inputElement.val("");
-        }, 
+        },
 
         //Fuction will force download of url provided
-        forceDownload: function (url){
+        forceDownload: function (url) {
             var xhr = new XMLHttpRequest();
             xhr.open("GET", url, true);
             xhr.responseType = "blob";
-            xhr.onload = function(){
+            xhr.onload = function () {
                 var urlCreator = window.URL || window.webkitURL;
                 var imageUrl = urlCreator.createObjectURL(this.response);
                 var tag = document.createElement('a');
@@ -331,8 +329,8 @@ $(document).ready(function() {
     }
 
     //Assign default list of gif search topics
-    var topics = ["baseball", "football", "basketball", "soccer", "hockey", "skateboarding", "surfing", 
-    "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "Field Hockey "];
+    var topics = ["baseball", "football", "basketball", "soccer", "hockey", "skateboarding", "surfing",
+        "tennis", "golf", "volleyball", "ping pong", "rugby", "boxing", "gymnastics", "Field Hockey "];
 
     //Initialize the giphy demo object
     giphyDemo.initialize(topics, $("#searchButtonsDiv"), $("#gifDisplayDiv"), $("#gifAddForm"), $("#favoritesMainSection"), $("#searchMainSection"));
